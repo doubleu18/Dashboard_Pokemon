@@ -1,12 +1,6 @@
-
-import pandas as pd
-import requests
 import plotly.graph_objs as go
+from src.components.dataPokemon import dfPokemon
 
-
-res = requests.get('http://api-pokemon-baron.herokuapp.com/pokemon')
-dfPokemon = pd.DataFrame(res.json(), columns=res.json()[0].keys())
-    
 listGoFunc = {
     'Bar': go.Bar,
     'Box': go.Box,
