@@ -8,7 +8,7 @@ rowcolhist={
     'Generation':{'row':3,'col':2}
 }
 
-def callbackupdatehisto(xx,hue,angka):
+def callbackUpdateHisto(xx,hue,angka):
     uniqueData=dfPokemon
     angka=int(angka)
     if(hue != 'All'):

@@ -21,7 +21,7 @@ def generateValuePlot(legendary,xplot,yplot, statsplot = 'mean'):
         }
     }
 
-def callbackupdatecatgraph(jenisplot, xplot, yplot, statsplot):
+def callbackUpdateCatGraph(jenisplot, xplot, yplot, statsplot):
     return dict(
         layout = go.Layout(
                 title= '{} Plot Pokemon'.format(jenisplot),

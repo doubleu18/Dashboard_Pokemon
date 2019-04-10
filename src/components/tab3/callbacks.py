@@ -3,7 +3,7 @@ from src.components.dataPokemon import dfPokemon
 from src.components.dataSupport import legendDict
 
 
-def callbackupdatescattergraph(hue,x,y):
+def callbackUpdateScatterGraph(hue,x,y):
     return dict(
                 data=[
                     go.Scatter(

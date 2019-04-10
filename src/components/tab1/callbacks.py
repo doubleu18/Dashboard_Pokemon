@@ -4,7 +4,7 @@ import pandas as pd
 from src.components.tab1.view import generate_table
 from src.components.dataPokemon import dfPokemonTable
 
-def callbacksortingtable(pagination_settings, sorting_settings):
+def callbackSortingTable(pagination_settings, sorting_settings):
  # print(sorting_settings)
     if len(sorting_settings):
         dff = dfPokemonTable.sort_values(
@@ -25,7 +25,7 @@ def callbacksortingtable(pagination_settings, sorting_settings):
     ].to_dict('rows')
 
 
-def callbackfiltertable(n_clicks,maxrows,name,generation,category,total):
+def callbackFilterTable(n_clicks,maxrows,name,generation,category,total):
     global dfPokemonTable
     urlget = 'http://api-pokemon-baron.herokuapp.com/pokemon?name={}&mintotal={}&maxtotal={}'.format(name,total[0],total[1])
     if(generation != ''):

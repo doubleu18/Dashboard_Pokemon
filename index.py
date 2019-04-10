@@ -16,11 +16,11 @@ from src.components.tab3.view import renderIsiTab3
 from src.components.tab4.view import renderIsiTab4
 from src.components.tab5.view import renderIsiTab5
 
-from src.components.tab1.callbacks import callbacksortingtable, callbackfiltertable
-from src.components.tab2.callbacks import callbackupdatecatgraph
-from src.components.tab3.callbacks import callbackupdatescattergraph
-from src.components.tab4.callbacks import classupdatepiechart
-from src.components.tab5.callbacks import callbackupdatehisto
+from src.components.tab1.callbacks import callbackSortingTable, callbackFilterTable
+from src.components.tab2.callbacks import callbackUpdateCatGraph
+from src.components.tab3.callbacks import callbackUpdateScatterGraph
+from src.components.tab4.callbacks import classUpdatePieChart
+from src.components.tab5.callbacks import callbackUpdateHisto
 
 # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -83,7 +83,7 @@ def update_table(n_clicks,maxrows,name,generation,category,total):
     Input(component_id='yplotcategory', component_property='value'),
     Input(component_id='statsplotcategory', component_property='value')])
 def update_category_graph(jenisplot, xplot, yplot, statsplot):
-    return callbackupdatecatgraph(jenisplot, xplot, yplot, statsplot)
+    return callbackUpdateCatGraph(jenisplot, xplot, yplot, statsplot)
 
 # Jenis Plot
 @app.callback(
@@ -102,28 +102,23 @@ def update_disabled_stats(jenisplot):
     Input(component_id='xplotscatter', component_property='value'),
     Input(component_id='yplotscatter', component_property='value')])
 def update_scatter_plot(hue,x,y):
-    return callbackupdatescattergraph(hue,x,y)
+    return callbackUpdateScatterGraph(hue,x,y)
 
 # Pie Chart
 @app.callback(
     Output(component_id='piegraph', component_property='figure'),
     [Input(component_id='groupplotpie', component_property='value')])
 def update_pie_chart(group):
-    return classupdatepiechart(group)
+    return classUpdatePieChart(group)
 
 # Histogram
-rowcolhist={
-    'All': {'row':1, 'col':1},
-    'Legendary':{'row':1,'col':2},
-    'Generation':{'row':3,'col':2}
-}
 @app.callback(
     Output(component_id='histograph', component_property='figure'),
     [Input(component_id='xplothist', component_property='value'),
     Input(component_id='hueplothist', component_property='value'),
     Input(component_id='stdplothist', component_property='value')])
 def update_histo(xx,hue,angka):
-    return callbackupdatehisto(xx,hue,angka)
-    
+    return callbackUpdateHisto(xx,hue,angka)
+
 if __name__ == '__main__':
     app.run_server(debug=True)

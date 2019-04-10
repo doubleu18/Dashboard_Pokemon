@@ -1,7 +1,7 @@
 import plotly.graph_objs as go
 from src.components.dataPokemon import dfPokemon
 
-def classupdatepiechart(group):
+def classUpdatePieChart(group):
     return dict(
                 data=[
                     go.Pie(
