@@ -8,19 +8,23 @@ from dash.dependencies import Input, Output, State
 from plotly import tools
 import plotly.graph_objs as go
 
-from src.components.dataPokemon import dfPokemon, dfPokemonTable
+from src.components.dataPokemon import dfPokemon, dfPokemonTable, dfHistory
 
 from src.components.tab1.view import renderIsiTab1
 from src.components.tab2.view import renderIsiTab2
 from src.components.tab3.view import renderIsiTab3
 from src.components.tab4.view import renderIsiTab4
 from src.components.tab5.view import renderIsiTab5
+from src.components.tab6.view import renderIsiTab6
+from src.components.tab7.view import renderIsiTab7
 
 from src.components.tab1.callbacks import callbackSortingTable, callbackFilterTable
 from src.components.tab2.callbacks import callbackUpdateCatGraph
 from src.components.tab3.callbacks import callbackUpdateScatterGraph
 from src.components.tab4.callbacks import classUpdatePieChart
 from src.components.tab5.callbacks import callbackUpdateHisto
+from src.components.tab6.callbacks import callbackPredict
+from src.components.tab7.callbacks import callbackSortingTableHistory, callbackFilterTableHistory
 
 # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -41,6 +45,8 @@ app.layout = html.Div([
         dcc.Tab(label='Scatter Plot', value='tab-3', children = renderIsiTab3()),
         dcc.Tab(label='Pie Chart', value='tab-4', children = renderIsiTab4()),
         dcc.Tab(label='Histogram', value='tab-5', children = renderIsiTab5()),
+        dcc.Tab(label='Test Predict', value='tab-6', children = renderIsiTab6()),
+        dcc.Tab(label='History Prediction', value='tab-7', children = renderIsiTab7()),
     ],style={
         'fontFamily': 'system-ui'
     }, content_style={
@@ -61,7 +67,7 @@ app.layout = html.Div([
     [Input('table-multicol-sorting', "pagination_settings"),
      Input('table-multicol-sorting', "sorting_settings")])
 def update_sort_paging_table(pagination_settings, sorting_settings):
-    return callbacksortingtable(pagination_settings, sorting_settings)
+    return callbackSortingTable(pagination_settings, sorting_settings)
 
 # Tabel
 @app.callback(
@@ -73,7 +79,7 @@ def update_sort_paging_table(pagination_settings, sorting_settings):
     State('filtercategorytable', 'value'),
     State('filtertotaltable', 'value')])
 def update_table(n_clicks,maxrows,name,generation,category,total):
-    return callbackfiltertable(n_clicks,maxrows,name,generation,category,total)
+    return callbackFilterTable(n_clicks,maxrows,name,generation,category,total)
 
 # Plots
 @app.callback(
@@ -95,7 +101,6 @@ def update_disabled_stats(jenisplot):
     return True
 
 # Scatter Plot
-
 @app.callback(
     Output(component_id='scattergraph', component_property='figure'),
     [Input(component_id='hueplotscatter', component_property='value'),
@@ -119,6 +124,42 @@ def update_pie_chart(group):
     Input(component_id='stdplothist', component_property='value')])
 def update_histo(xx,hue,angka):
     return callbackUpdateHisto(xx,hue,angka)
+
+
+# Predict
+@app.callback(
+    Output(component_id='outputpredict', component_property='children'),
+    [Input('buttonpredict', 'n_clicks')],
+    [State('predictname', 'value'),
+    State('predicttype1', 'value'),
+    State('predicttype2', 'value'),
+    State('predictgeneration', 'value'),
+    State('predicttotal', 'value'),
+    State('predicthp', 'value'),
+    State('predictspeed', 'value'),
+    State('predictattack', 'value'),
+    State('predictdefense', 'value'),
+    State('predictspattack', 'value'),
+    State('predictspdefense', 'value'),
+    ])
+def predict(n_clicks, name, type1, type2, generation, total,hp, speed, attack, defense, spatk, spdef):
+    return callbackPredict(n_clicks, name, type1, type2, generation, total,hp, speed, attack, defense, spatk, spdef)
+
+# History
+@app.callback(
+    Output('table-history-prediction', "data"),
+    [Input('table-history-prediction', "pagination_settings"),
+     Input('table-history-prediction', "sorting_settings")])
+def update_sort_paging_table_history(pagination_settings, sorting_settings):
+    return callbackSortingTableHistory(pagination_settings, sorting_settings)
+
+@app.callback(
+    Output(component_id='tablehistorydiv', component_property='children'),
+    [Input('filtercreatedbyhistory', 'value'),
+    Input('filterrowshistory', 'value')],
+    )
+def update_table_history(createdby, maxrows):
+    return callbackFilterTableHistory(createdby, maxrows)
 
 if __name__ == '__main__':
     app.run_server(debug=True)

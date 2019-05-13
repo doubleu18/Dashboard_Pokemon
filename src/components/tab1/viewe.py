@@ -1,5 +1,5 @@
-import dash_core_components as dcc
 import dash_html_components as html
+import dash_core_components as dcc
 import dash_table as dt
 
 from src.components.dataPokemon import dfPokemon, dfPokemonTable
@@ -15,22 +15,18 @@ from src.components.dataPokemon import dfPokemon, dfPokemonTable
 #         ]) for i in range(min(len(dataframe), max_rows))]
 #     )
 
-def generate_table(dataframe, pagesize=10):
+def generate_table(dataframe, pagesize = 10):
     return dt.DataTable(
                 id='table-multicol-sorting',
-                columns=[
-                    {"name": i, "id": i} for i in dataframe.columns
-                ],
-                style_table={'overflowX': 'scroll'},
-                pagination_settings={
-                    'current_page': 0,
-                    'page_size': pagesize
-                },
+                columns=[{"name": i, "id": i} for i in list(dataframe.columns) ],
+                pagination_settings={'current_page': 0,'page_size': pagesize},
                 pagination_mode='be',
+                style_table={'overflowX': 'scroll'},
                 sorting='be',
                 sorting_type='multi',
                 sorting_settings=[]
-            )      
+                )
+
 
 def renderIsiTab1():
     return [
@@ -63,11 +59,11 @@ def renderIsiTab1():
                     dcc.Dropdown(
                         id='filtercategorytable',
                         options=[i for i in [{ 'label': 'All Category', 'value': '' },
-                                            { 'label': 'Legendary', 'value': 'True' },
-                                            { 'label': 'Non-Legendary', 'value': 'False' }]],
+                                            { 'label': 'Legendary', 'value': True },
+                                            { 'label': 'Non-Legendary', 'value': False }]],
                         value=''
                     )
-                ], className='col-4')   
+                ], className='col-4')
             ], className='row'),
             html.Br(),
             html.Div([
@@ -104,6 +100,6 @@ def renderIsiTab1():
             ], className='row'),
             html.Center([
                 html.H2('Data Pokemon', className='title'),
-                html.Div(id='tablediv', children=generate_table(dfPokemonTable))
+                html.Div(id='tablediv', children = generate_table(dfPokemonTable))
             ])
         ]
